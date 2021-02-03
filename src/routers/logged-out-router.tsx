@@ -5,13 +5,19 @@ import { CreateAccount } from "../pages/create-account";
 import { NotFound } from "../404";
 
 export const LoggedOutRouter = () => {
-    return (
-        <Router>
-            <Switch>
-                <Route path="/" exact><Login/></Route>
-                <Route path="/create-account"><CreateAccount/></Route>
-                <Route><NotFound /></Route>
-            </Switch>
-        </Router>
-    )
-}
+  return (
+    <Router>
+      <Switch>
+        <Route path="/" exact>
+          <Login />
+        </Route>
+        <Route path="/create-account">
+          <CreateAccount />
+        </Route>
+        <Route>
+          <NotFound />
+        </Route>
+      </Switch>
+    </Router>
+  );
+};

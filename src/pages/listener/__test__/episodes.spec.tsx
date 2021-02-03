@@ -4,10 +4,12 @@ import { Episodes } from "../episodes";
 import { ApolloProvider } from "@apollo/client";
 import { RenderResult } from "@testing-library/react";
 import { createMockClient, MockApolloClient } from "mock-apollo-client";
+import * as reactRouterDom from "react-router-dom";
 
 describe("<Episodes />", () => {
   let mockedClient: MockApolloClient;
   let renderResult: RenderResult;
+
   beforeEach(async () => {
     await waitFor(() => {
       mockedClient = createMockClient();

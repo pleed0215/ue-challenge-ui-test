@@ -5,10 +5,10 @@ import { PODCAST_FRAGMENT } from "../../fragments";
 import {
   getEpisodes,
   getEpisodesVariables,
-  getEpisodes_getPodcast_podcast
+  getEpisodes_getPodcast_podcast,
 } from "../../__type_graphql__/getEpisodes";
 
-const GET_EPISODES_QUERY = gql`
+export const GET_EPISODES_QUERY = gql`
   query getEpisodes($input: PodcastSearchInput!) {
     getPodcast(input: $input) {
       ok
@@ -35,14 +35,15 @@ interface IEpisodeParams {
 
 export const Episodes = () => {
   const params = useParams<IEpisodeParams>();
+  console.log(useParams);
   const { data, loading, error } = useQuery<getEpisodes, getEpisodesVariables>(
     GET_EPISODES_QUERY,
     {
       variables: {
         input: {
-          id: +params.id
-        }
-      }
+          id: +params.id,
+        },
+      },
     }
   );
 
@@ -76,7 +77,7 @@ export const Episodes = () => {
         </div>
         <div
           style={{
-            backgroundImage: `url(${data?.getPodcast.podcast?.thumbnailUrl})`
+            backgroundImage: `url(${data?.getPodcast.podcast?.thumbnailUrl})`,
           }}
           className="bg-cover w-32 h-32 md:w-48 md:h-48 rounded-md"
         ></div>

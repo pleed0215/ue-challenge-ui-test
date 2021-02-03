@@ -91,4 +91,44 @@ describe("<CreateAccount />", () => {
     expect(windowAlert).toHaveBeenCalledTimes(1);
     expect(windowAlert).toHaveBeenCalledWith("Account Created! Log in now!");
   });
+
+  it("should fail to create account", async () => {
+    const { getByPlaceholderText, getByRole, debug } = renderResult;
+    const formData = {
+      email: "some@test.com",
+      password: "testpassword",
+      role: UserRole.Host,
+    };
+    const mockedMutationResponse = jest.fn().mockResolvedValue({
+      data: {
+        createAccount: {
+          ok: false,
+          error: "testfail",
+        },
+      },
+    });
+    mockedClient.setRequestHandler(
+      CREATE_ACCOUNT_MUTATION,
+      mockedMutationResponse
+    );
+    const email = getByPlaceholderText(/e-mail/i);
+    const password = getByPlaceholderText(/password/i);
+    const confirm = getByPlaceholderText(/confirm/i);
+    const button = getByRole("button");
+    const windowAlert = jest
+      .spyOn(window, "alert")
+      .mockImplementation(() => null);
+    await waitFor(() => {
+      userEvent.type(email, formData.email);
+      userEvent.type(password, formData.password);
+      userEvent.type(confirm, formData.password);
+      userEvent.click(button);
+    });
+    expect(mockedMutationResponse).toHaveBeenCalledTimes(1);
+    expect(mockedMutationResponse).toHaveBeenCalledWith({
+      createAccountInput: {
+        ...formData,
+      },
+    });
+  });
 });
